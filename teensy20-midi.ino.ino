@@ -78,8 +78,6 @@ void loop()
     if ( knob_1 != old_knob_1 ) {
       knob_1 = analogRead(A9) / 8;
       old_knob_1 = knob_1;
-//      Serial.print("Knob 1: ");
-//      Serial.println(knob_1);
       usbMIDI.sendControlChange(KNOB_1_MIDI_CC, knob_1, CHANNEL);
     }
 
@@ -87,20 +85,14 @@ void loop()
     if ( knob_2 != old_knob_2 ) {
       knob_2 = analogRead(A8) / 8;
       old_knob_2 = knob_2;
-//      Serial.print("Knob 2: ");
-//      Serial.println(knob_2);
       usbMIDI.sendControlChange(KNOB_2_MIDI_CC, knob_2, CHANNEL);
     }
 
     // Top Button
     if (top_button.fallingEdge()) {
-//      digitalWrite(LED_PIN, HIGH);   // set the LED on
       usbMIDI.sendNoteOn(TOP_BTN_MIDI_CC, MIDI_NOTE_ON, CHANNEL);
-//      Serial.println("Top Button: ON");
     } else if (top_button.risingEdge()) {
-//      digitalWrite(LED_PIN, LOW);   // set the LED on
       usbMIDI.sendNoteOff(TOP_BTN_MIDI_CC, MIDI_NOTE_OFF, CHANNEL);
-//      Serial.println("Top Button: OFF");
     }
 
     // Momentary Button 1
@@ -108,13 +100,11 @@ void loop()
       if (momentary_1.fallingEdge() || momentary_1.risingEdge()) {
         m_state_1 = true;
         m_delay_1 = MOMENTARY_DELAY;
-//        Serial.println("Momentary 1: ON");
         usbMIDI.sendNoteOn(MOMENTARY_1_MIDI_CC, MIDI_NOTE_ON, CHANNEL);
       }
     } else {
       if (m_delay_1 < 1) {
         m_state_1 = false;
-//        Serial.println("Momentary 1: OFF");
         usbMIDI.sendNoteOff(MOMENTARY_1_MIDI_CC, MIDI_NOTE_OFF, CHANNEL);
       } else {
         m_delay_1--;
@@ -126,13 +116,11 @@ void loop()
       if (momentary_2.fallingEdge() || momentary_2.risingEdge()) {
         m_state_2 = true;
         m_delay_2 = MOMENTARY_DELAY;
-//        Serial.println("Momentary 2: ON");
         usbMIDI.sendNoteOn(MOMENTARY_2_MIDI_CC, MIDI_NOTE_ON, CHANNEL);
       }
     } else {
       if (m_delay_2 < 1) {
         m_state_2 = false;
-//        Serial.println("Momentary 2: OFF");
         usbMIDI.sendNoteOff(MOMENTARY_2_MIDI_CC, MIDI_NOTE_OFF, CHANNEL);
       } else {
         m_delay_2--;
@@ -141,24 +129,16 @@ void loop()
 
     // Toggle Button 1
     if (toggle_1.fallingEdge()) {
-//      digitalWrite(LED_PIN, HIGH);   // set the LED on
       usbMIDI.sendNoteOn(TOGGLE_1_MIDI_CC, MIDI_NOTE_ON, CHANNEL);
-//      Serial.println("Toggle 1: ON");
     } else if (toggle_1.risingEdge()) {
-//      digitalWrite(LED_PIN, LOW);   // set the LED off
       usbMIDI.sendNoteOff(TOGGLE_1_MIDI_CC, MIDI_NOTE_OFF, CHANNEL);
-//      Serial.println("Toggle 1: OFF");
     }
 
     // Toggle Button 2
     if (toggle_2.fallingEdge()) {
-//      digitalWrite(LED_PIN, HIGH);   // set the LED on
       usbMIDI.sendNoteOn(TOGGLE_2_MIDI_CC, MIDI_NOTE_ON, CHANNEL);
-//      Serial.println("Toggle 2: ON");
     } else if (toggle_2.risingEdge()) {
-//      digitalWrite(LED_PIN, LOW);   // set the LED off
       usbMIDI.sendNoteOff(TOGGLE_2_MIDI_CC, MIDI_NOTE_OFF, CHANNEL);
-//      Serial.println("Toggle 2: OFF");
     }
 
   } // if (msec >= 20)
